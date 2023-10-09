@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('tasks', function (Blueprint $table) {
             //ステータス列を追加
-            $table->string('status');
+            $table->string('status', 10);
         });
     }
 
