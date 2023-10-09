@@ -11,7 +11,8 @@
         <thead>
             <tr>
                 <th>id</th>
-                <th>メッセージ</th>
+                <th>タスク</th>
+                <th>ステータス</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,7 @@
             <tr>
                 <td><a class="link" href="{{route('tasks.show', $task->id)}}">{{ $task->id }}</a></td>
                 <td>{{ $task->content }}</td>
+                <td>{{ $task->status }}</td>
             </tr>
             @endforeach
         </tbody>

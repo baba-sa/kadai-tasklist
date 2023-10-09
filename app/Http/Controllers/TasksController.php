@@ -30,7 +30,6 @@ class TasksController extends Controller
      */
     public function create()
     {
-        //
         $task = new Task;
         
         return view('tasks.create', [
@@ -49,6 +48,7 @@ class TasksController extends Controller
         //
         $task =new Task;
         $task->content = $request->content;
+        $task->status = $request->status;
         $task->save();
         
         return redirect('/');
@@ -62,7 +62,7 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        //
+        //idからtaskを取得
         $task = Task::findOrFail($id);
         
         return view('tasks.show', [
@@ -78,7 +78,7 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-        //
+        //idからtaskを取得
         $task = Task::findOrFail($id);
         
         return view('tasks.edit', [
@@ -96,9 +96,10 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //idからtaskを取得
         $task = Task::findOrFail($id);
         $task->content = $request->content;
+        $task->status = $request->status;
         $task->save();
         
         return redirect('/');
