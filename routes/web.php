@@ -24,5 +24,5 @@ require __DIR__.'/auth.php';
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UsersController::class, ['only' => ['index', 'show']]);
-    Route::resource('tasks', TasksController::class, ['only' => ['index', 'show', 'store', 'destroy']]);
+    Route::resource('tasks', TasksController::class, ['only' => ['index', 'show', 'edit', 'store', 'update', 'destroy']]);
 });

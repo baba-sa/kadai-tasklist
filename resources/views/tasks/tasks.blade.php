@@ -13,7 +13,7 @@
                     </tr>
                 @foreach ($tasks as $task)
                     <tr>
-                        <td>{!! nl2br(e($task->content)) !!}</td>
+                        <td><a class ="underline underline-offset-auto" href="{{ route('tasks.edit', $task->id) }}">{!! nl2br(e($task->content)) !!}</a></td>
                         <td>{{ nl2br(e($task->status)) }}</td>
                         <td>{{ $task->created_at }}</td>
                         <td>
