@@ -14,13 +14,22 @@ class TasksController extends Controller
      */
     public function index()
     {
-        //タスク一覧を取得
-        $tasks = Task::all();
+        //自分のタスク一覧を取得
+        $data = [];
+        if (\Auth::check()) { // 認証済みの場合
+            // 認証済みユーザを取得
+            $user = \Auth::user();
+            // ユーザの投稿の一覧を作成日時の降順で取得
+            // （後のChapterで他ユーザの投稿も取得するように変更しますが、現時点ではこのユーザの投稿のみ取得します）
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+        }
         
         //一覧ビューで表示
-        return view('tasks.index', [
-            'tasks' => $tasks,
-            ]);
+        return view('dashboard', $data);
     }
 
     /**
@@ -51,12 +60,13 @@ class TasksController extends Controller
             'status' => 'required|max:10',
         ]);
         
-        $task =new Task;
-        $task->content = $request->content;
-        $task->status = $request->status;
-        $task->save();
+         $request->user()->tasks()->create([
+            'content' => $request->content,
+            'status' => $request->status,
+        ]);
         
-        return redirect('/');
+        // 前のURLへリダイレクトさせる
+        return back();
     }
 
     /**
@@ -126,10 +136,16 @@ class TasksController extends Controller
     {
         // idの値でメッセージを検索して取得
         $task = Task::findOrFail($id);
-        // メッセージを削除
-        $task->delete();
+        
+        // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は投稿を削除
+        if (\Auth::id() === $task->user_id) {
+            $task->delete();
+            return back()
+                ->with('success','Delete Successful');
+        }
 
-        // トップページへリダイレクトさせる
-        return redirect('/');
+        // 前のURLへリダイレクトさせる
+        return back()
+            ->with('Delete Failed');
     }
 }
