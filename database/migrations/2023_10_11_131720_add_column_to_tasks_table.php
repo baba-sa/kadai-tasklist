@@ -32,7 +32,7 @@ return new class extends Migration
     {
         Schema::table('tasks', function (Blueprint $table) {
             //ステータス列を削除
-            $table->dropColumn('user_id');
+            $table->dropForeign(['user_id']);
         });
     }
 };
