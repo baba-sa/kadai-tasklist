@@ -160,8 +160,9 @@ class TasksController extends Controller
         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は投稿を削除
         if (\Auth::id() === $task->user_id) {
             $task->delete();
-            return back()
-                ->with('success','Delete Successful');
+            //return back()
+            //    ->with('success','Delete Successful');
+            return redirect('/');
         }
 
         // 前のURLへリダイレクトさせる
