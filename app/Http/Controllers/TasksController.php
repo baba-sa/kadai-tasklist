@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 
+
 class TasksController extends Controller
 {
     /**
@@ -80,9 +81,20 @@ class TasksController extends Controller
         //idからtaskを取得
         $task = Task::findOrFail($id);
         
-        return view('tasks.show', [
+/*        return view('tasks.show', [
             'task'=>$task,
             ]);
+*/
+
+        if($task->user_id===\Auth::id()){
+            return view('tasks.show', [
+            'task'=>$task,
+            ]);
+            
+        }else{
+            return redirect('/');
+        }
+
     }
 
     /**
@@ -96,10 +108,18 @@ class TasksController extends Controller
         //idからtaskを取得
         $task = Task::findOrFail($id);
         
-        return view('tasks.edit', [
+/*        return view('tasks.edit', [
             'task'=>$task,
             ]);
-        
+*/        
+        if($task->user_id===\Auth::id()){
+            return view('tasks.edit', [
+            'task'=>$task,
+            ]);
+            
+        }else{
+            return redirect('/');
+        }
     }
 
     /**
